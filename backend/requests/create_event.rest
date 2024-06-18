@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/events
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJAZ21haWwuY29tIiwiaWQiOiI2NjcwYzYwYWJkYTlmOWMwODJlMTI3OGQiLCJpYXQiOjE3MTg2ODM0MDh9.rITca52bYtPvWzmx4b-mDAfzlz-VvQnzzfkowwXt27U
+
+{
+  "type": "pickleball",
+  "title": "Intermediate 2's",
+  "description": "Chill game, looking for people with good vibes",
+  "location": "San Jpse",
+  "address": "Court",
+  "datetime": "2024-08-20T14:00"
+}
