@@ -25,11 +25,8 @@ export interface Event {
   address: string;
   startDatetime: Date;
   endDatetime: Date;
-  // organizer: User["id"];
   organizer: Types.ObjectId | string;
   status: EventStatus;
-  // requestedUsers: Array<User["id"]>;
-  // acceptedUsers: Array<User["id"]>;
   requestedUsers: Array<Types.ObjectId>;
   acceptedUsers: Array<Types.ObjectId>;
 }

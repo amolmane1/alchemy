@@ -10,7 +10,7 @@ export const tokenExtractor = (
   next: NextFunction
 ) => {
   const authorization = request.get("authorization");
-  console.log("authorization: ", authorization);
+  // console.log("authorization: ", authorization);
   if (authorization && authorization.startsWith("Bearer ")) {
     request.token = authorization.replace("Bearer ", "");
   }
@@ -24,7 +24,7 @@ export const userExtractor = async (
 ) => {
   if (request.token) {
     const decodedToken = await jwt.verify(request.token, "fullstack");
-    console.log("decodenToekn: ", decodedToken);
+    // console.log("decodenToken: ", decodedToken);
     if (!isJwtPayload(decodedToken) || !decodedToken.id) {
       response.status(401).json({ error: "Invalid token" });
     } else {

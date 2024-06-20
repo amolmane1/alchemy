@@ -8,7 +8,6 @@ const loginRouter = express.Router();
 loginRouter.post("", async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email: email });
-  console.log("found user");
   if (!user) {
     return res.status(401).json({ error: "username not found" });
   }
@@ -24,7 +23,12 @@ loginRouter.post("", async (req, res) => {
   );
   return res
     .status(200)
-    .send({ token, email: user.email, firstName: user.firstName });
+    .send({
+      token,
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+    });
 });
 
 export default loginRouter;

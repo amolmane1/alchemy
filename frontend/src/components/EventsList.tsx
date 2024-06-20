@@ -6,17 +6,17 @@ import {
 import EventCard from "./EventCard";
 import { Event, EventFilter } from "../utils/types";
 
-const EventsList = ({ searchFilters }: { searchFilters: EventFilter }) => {
+const EventsList = ({ eventFilters }: { eventFilters: EventFilter }) => {
   const filteredEventsSelector = createSelector(
     [(state) => state.events],
     (events) =>
       events.filter((e: Event) => {
         const statusCheck = e.status === "upcoming" || e.status === "ongoing";
-        const locationCheck = e.location.includes(searchFilters.location);
+        const locationCheck = e.location.includes(eventFilters.location);
         const textCheck =
-          e.title.includes(searchFilters.text) ||
-          e.description.includes(searchFilters.text) ||
-          e.type.includes(searchFilters.text);
+          e.title.includes(eventFilters.text) ||
+          e.description.includes(eventFilters.text) ||
+          e.type.includes(eventFilters.text);
         return statusCheck && locationCheck && textCheck;
       })
   );

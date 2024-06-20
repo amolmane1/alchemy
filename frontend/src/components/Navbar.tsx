@@ -10,17 +10,34 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { EventFilter } from "../utils/types";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../utils/hooks";
+import { EventFilter, UserState } from "../utils/types";
+import eventService from "../services/eventService";
+import { removeUser } from "../reducers/userReducer";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({
-  searchFilters,
-  setSearchFilters,
   handleSubmitSearch,
 }: {
-  searchFilters: EventFilter;
-  setSearchFilters: React.Dispatch<React.SetStateAction<EventFilter>>;
-  handleSubmitSearch: () => void;
+  handleSubmitSearch: (searchFilters: EventFilter) => void;
 }) => {
+  const user: UserState = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [searchFilters, setSearchFilters] = useState<EventFilter>({
+    text: "",
+    location: "",
+  });
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("user");
+    eventService.setToken(null);
+    dispatch(removeUser());
+    navigate("/");
+  };
+
   return (
     <>
       <Box bg="teal.500" px={8}>
@@ -28,7 +45,7 @@ const Navbar = ({
           <HStack spacing={24} alignItems={"center"}>
             <Box>
               <Heading size="lg" color="white">
-                Alchemy
+                <Link to="/">Alchemy</Link>
               </Heading>
             </Box>
             <InputGroup maxW="600px">
@@ -67,7 +84,7 @@ const Navbar = ({
                   borderLeftRadius="0"
                   w="80px"
                   colorScheme="orange"
-                  onClick={handleSubmitSearch}
+                  onClick={() => handleSubmitSearch(searchFilters)}
                 >
                   <SearchIcon color="white" />
                 </Button>
@@ -76,14 +93,31 @@ const Navbar = ({
           </HStack>
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             <Button colorScheme="orange" variant="solid">
-              Create Event
+              <Link to="/create-event">Create Event</Link>
             </Button>
-            <Button colorScheme="teal" variant="solid">
-              Login
-            </Button>
-            <Button colorScheme="teal" variant="solid">
-              Sign Up
-            </Button>
+            {user.token ? (
+              <>
+                <Button colorScheme="teal" variant="solid">
+                  {user.firstName}
+                </Button>
+                <Button
+                  colorScheme="teal"
+                  variant="solid"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button colorScheme="teal" variant="solid">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button colorScheme="teal" variant="solid">
+                  <Link to="/signup">Sign up</Link>
+                </Button>
+              </>
+            )}
           </HStack>
         </Flex>
       </Box>

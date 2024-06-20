@@ -14,7 +14,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", userExtractor, async (req: CustomRequest, res) => {
+  console.log("in post");
   const user = req.user;
+  console.log("user ", user);
+
   if (user) {
     const newEvent: NewEvent = toNewEvent({ ...req.body, organizer: user.id });
     const result = await eventService.addEvent(newEvent);

@@ -8,12 +8,7 @@ import EventModel from "../models/events";
 
 const getEvents = async (filters: EventFilterQuery) => {
   const result = await EventModel.find(filters)
-    .populate("organizer", {
-      firstName: 1,
-      lastName: 1,
-      email: 1,
-      location: 1,
-    })
+    .populate("organizer")
     .populate("requestedUsers")
     .populate("acceptedUsers");
 
@@ -21,14 +16,21 @@ const getEvents = async (filters: EventFilterQuery) => {
 };
 
 const getEvent = async (eventId: string) => {
-  const event = await EventModel.findById(eventId);
+  const event = await EventModel.findById(eventId)
+    .populate("organizer")
+    .populate("requestedUsers")
+    .populate("acceptedUsers");
   return event;
 };
 
 const addEvent = async (newEvent: NewEvent) => {
   const event = new EventModel(newEvent);
   const result = await event.save();
-  return result;
+  console.log("saved event: ", result);
+  console.log(result.id);
+  // return result;
+  const populatedResult = await getEvent(result.id);
+  return populatedResult;
 };
 
 const updateEvent = async (
@@ -43,7 +45,10 @@ const updateEvent = async (
     new: true,
     runValidators: true,
     context: "query",
-  });
+  })
+    .populate("organizer")
+    .populate("requestedUsers")
+    .populate("acceptedUsers");
   return result;
 };
 

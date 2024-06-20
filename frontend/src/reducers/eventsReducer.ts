@@ -1,7 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import eventsService from "../services/eventService";
-import { AppDispatch, Event } from "../utils/types";
+import eventService from "../services/eventService";
+import { Event, NewEventForm } from "../utils/types";
+import { AppDispatch } from "../utils/store";
 
 const initialState: Event[] = [];
 
@@ -13,18 +14,45 @@ const eventsSlice = createSlice({
       console.log("initializing events");
       return action.payload;
     },
+    addEvent(state, action) {
+      console.log("addEvent", action.payload);
+      state.push(action.payload);
+    },
+    updateEvent(state, action) {
+      const newState = state.map((e) =>
+        e.id === action.payload.id ? action.payload : e
+      );
+      return newState;
+    },
   },
 });
 
-export const {
-  setEvents,
-  // addBlog, updateBlog, removeBlog
-} = eventsSlice.actions;
+export const { setEvents, addEvent, updateEvent } = eventsSlice.actions;
 
 export const getAllEvents = () => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventsService.getAll();
+    const result = await eventService.getAll();
     dispatch(setEvents(result));
+  };
+};
+
+export const createEvent = (payload: NewEventForm) => {
+  return async (dispatch: AppDispatch) => {
+    const result = await eventService.addOne(payload);
+    dispatch(addEvent(result));
+  };
+};
+
+export const handleRequestToJoinEvent = (eventId: string) => {
+  return async (dispatch: AppDispatch) => {
+    const result = await eventService.requestToJoinEvent(eventId);
+    dispatch(updateEvent(result));
+  };
+};
+export const handleWithdrawRequestToJoinEvent = (eventId: string) => {
+  return async (dispatch: AppDispatch) => {
+    const result = await eventService.withdrawRequestToJoinEvent(eventId);
+    dispatch(updateEvent(result));
   };
 };
 
