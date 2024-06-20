@@ -22,8 +22,12 @@ const eventSchema = new Schema<NewEvent>({
     type: String,
     required: true,
   },
-  datetime: {
-    type: String,
+  startDatetime: {
+    type: Date,
+    required: true,
+  },
+  endDatetime: {
+    type: Date,
     required: true,
   },
   organizer: {
@@ -48,6 +52,8 @@ const eventSchema = new Schema<NewEvent>({
     },
   ],
 });
+
+eventSchema.index({ title: "text", description: "text", type: "text" });
 
 eventSchema.set("toJSON", {
   transform: (_document, returnedObject) => {

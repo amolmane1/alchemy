@@ -1,0 +1,3 @@
+PATCH http://localhost:3000/api/events/6671f04e62ba2c84661b6a15/requestedUsers/6671d4f291b8603a4593810d/accept-request-to-join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZ21haWwuY29tIiwiaWQiOiI2NjcwYzI1YTQ3MTI4OTJiNjNlYjU3YjciLCJpYXQiOjE3MTg3NDMyMjR9.jMMc1QJHpPECdXtoSo9JIJybMKk8gSeUIHWK8-nJA7I

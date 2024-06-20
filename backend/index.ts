@@ -4,7 +4,8 @@ const cors = require("cors");
 import userRouter from "./routes/users";
 import eventRouter from "./routes/events";
 import loginRouter from "./routes/login";
-import { tokenExtractor } from "./utils/middleware";
+import { tokenExtractor, unknownEndpoint } from "./utils/middleware";
+import "./cron-jobs/updateEventStatus";
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ mongoose
 app.use("/api/users", userRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/login", loginRouter);
+app.use(unknownEndpoint);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,11 +1,13 @@
 import { Types } from "mongoose";
-import { Event, NewEvent } from "../utils/types";
+import {
+  EventStatusUpdateFilter,
+  EventFilterQuery,
+  NewEvent,
+} from "../utils/types";
 import EventModel from "../models/events";
-// import eventData from "../data/events";
-// import { v1 as uuid } from "uuid";
 
-const getEvents = async () => {
-  const result = await EventModel.find({})
+const getEvents = async (filters: EventFilterQuery) => {
+  const result = await EventModel.find(filters)
     .populate("organizer", {
       firstName: 1,
       lastName: 1,
@@ -29,9 +31,13 @@ const addEvent = async (newEvent: NewEvent) => {
   return result;
 };
 
-const joinOrLeaveEvent = async (
+const updateEvent = async (
   eventId: string,
-  payload: Record<string, Array<Types.ObjectId>>
+  // payload: Record<string, Array<Types.ObjectId>>
+  payload:
+    | NewEvent
+    | Record<string, Array<Types.ObjectId>>
+    | Record<string, string>
 ) => {
   const result = await EventModel.findByIdAndUpdate(eventId, payload, {
     new: true,
@@ -49,6 +55,6 @@ export default {
   getEvents,
   getEvent,
   addEvent,
-  joinOrLeaveEvent,
+  updateEvent,
   // deleteEvent,
 };

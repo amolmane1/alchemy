@@ -16,15 +16,15 @@ export const parseString = (text: unknown, name: string): string => {
   return text;
 };
 
-const isDate = (text: string): boolean => {
+const isDateFormat = (text: string): boolean => {
   return Boolean(Date.parse(text));
 };
 
-const parseDate = (date: unknown): string => {
-  if (!date || !isString(date) || !isDate(date)) {
+const parseDate = (date: unknown): Date => {
+  if (!date || !isString(date) || !isDateFormat(date)) {
     throw new Error("Incorrect or missing date");
   }
-  return date;
+  return new Date(date);
 };
 
 export const toNewUser = (object: unknown) => {
@@ -61,7 +61,8 @@ export const toNewEvent = (object: unknown) => {
     "description" in object &&
     "location" in object &&
     "address" in object &&
-    "datetime" in object &&
+    "startDatetime" in object &&
+    "endDatetime" in object &&
     "organizer" in object
   ) {
     const newEvent: NewEvent = {
@@ -70,7 +71,8 @@ export const toNewEvent = (object: unknown) => {
       description: parseString(object.description, "description"),
       location: parseString(object.location, "location"),
       address: parseString(object.address, "address"),
-      datetime: parseDate(object.datetime),
+      startDatetime: parseDate(object.startDatetime),
+      endDatetime: parseDate(object.endDatetime),
       organizer: parseString(object.organizer, "organizer"),
       status: "upcoming",
       requestedUsers: [],

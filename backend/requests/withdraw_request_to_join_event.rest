@@ -1,0 +1,3 @@
+PATCH http://localhost:3000/api/events/66710d6433b0152eec11beea/withdraw-request-to-join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZ21haWwuY29tIiwiaWQiOiI2NjcwYzI1YTQ3MTI4OTJiNjNlYjU3YjciLCJpYXQiOjE3MTg2ODUyOTZ9.oL_xXkDTLyV9lOMxspjZBsFdseTG0PLDsVBR4Y9KjR4

@@ -10,7 +10,7 @@ export const tokenExtractor = (
   next: NextFunction
 ) => {
   const authorization = request.get("authorization");
-  console.log(authorization);
+  console.log("authorization: ", authorization);
   if (authorization && authorization.startsWith("Bearer ")) {
     request.token = authorization.replace("Bearer ", "");
   }
@@ -24,7 +24,7 @@ export const userExtractor = async (
 ) => {
   if (request.token) {
     const decodedToken = await jwt.verify(request.token, "fullstack");
-    console.log(decodedToken);
+    console.log("decodenToekn: ", decodedToken);
     if (!isJwtPayload(decodedToken) || !decodedToken.id) {
       response.status(401).json({ error: "Invalid token" });
     } else {
@@ -33,4 +33,11 @@ export const userExtractor = async (
     }
   }
   next();
+};
+
+export const unknownEndpoint = (
+  _request: CustomRequest,
+  response: Response
+) => {
+  response.status(404).send({ error: "unknown endpoint" });
 };
