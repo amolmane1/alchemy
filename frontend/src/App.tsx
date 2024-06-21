@@ -5,11 +5,14 @@ import Navbar from "./components/Navbar";
 import CreateEvent from "./components/CreateEvent";
 import { getAllEvents } from "./reducers/eventsReducer";
 import { setUser } from "./reducers/userReducer";
-import { EventFilter } from "./utils/types";
+import { Event, EventFilter } from "./utils/types";
 import eventService from "./services/eventService";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import { useNavigate, Route, Routes } from "react-router-dom";
+import { useNavigate, Route, Routes, useMatch } from "react-router-dom";
+import User from "./components/User";
+import * as React from "react";
+import EventDetail from "./components/EventDetail";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -18,12 +21,15 @@ const App = () => {
   const user = useAppSelector((state) => state.user);
   console.log(user && user.token);
 
-  const [eventFilters, setEventFilters] = useState<EventFilter>({
+  const emptyFilter: EventFilter = {
     text: "",
-    location: "",
-  });
+    location: user.location ? user.location : "",
+  };
+  const [searchFilters, setSearchFilters] = useState<EventFilter>(emptyFilter);
+  const [eventFilters, setEventFilters] = useState<EventFilter>(emptyFilter);
 
-  const handleSubmitSearch = (searchFilters: EventFilter) => {
+  const handleSubmitSearch = (event: React.SyntheticEvent) => {
+    event.preventDefault();
     setEventFilters(searchFilters);
     navigate("/");
   };
@@ -42,9 +48,15 @@ const App = () => {
 
   return (
     <>
-      <Navbar handleSubmitSearch={handleSubmitSearch} />
+      <Navbar
+        searchFilters={searchFilters}
+        setSearchFilters={setSearchFilters}
+        handleSubmitSearch={handleSubmitSearch}
+      />
       <Routes>
         <Route path="/" element={<EventsList eventFilters={eventFilters} />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

@@ -8,6 +8,7 @@ const loginRouter = express.Router();
 loginRouter.post("", async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email: email });
+  console.log(user);
   if (!user) {
     return res.status(401).json({ error: "username not found" });
   }
@@ -21,14 +22,14 @@ loginRouter.post("", async (req, res) => {
     "fullstack"
     // { expiresIn: 60 * 60 }
   );
-  return res
-    .status(200)
-    .send({
-      token,
-      id: user._id,
-      email: user.email,
-      firstName: user.firstName,
-    });
+  return res.status(200).send({
+    token,
+    id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    location: user.location,
+  });
 });
 
 export default loginRouter;
