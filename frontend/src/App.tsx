@@ -12,14 +12,14 @@ import Signup from "./components/Signup";
 import { useNavigate, Route, Routes, useMatch } from "react-router-dom";
 import User from "./components/User";
 import * as React from "react";
-import EventDetail from "./components/EventDetail";
+import EventDetailWrapper from "./components/EventDetailWrapper";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.user);
-  console.log(user && user.token);
+  // console.log(user && user.token);
 
   const emptyFilter: EventFilter = {
     text: "",
@@ -56,7 +56,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<EventsList eventFilters={eventFilters} />} />
         <Route path="/user" element={<User />} />
-        <Route path="/event/:id" element={<EventDetail />} />
+        <Route path="/event/:id" element={<EventDetailWrapper />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

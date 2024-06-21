@@ -26,26 +26,12 @@ const addOne = async (payload: NewEventForm) => {
   return response.data;
 };
 
-const requestToJoinEvent = async (eventId: string) => {
-  console.log("request");
+const updateOne = async (eventId: string, urlExtension: string) => {
   const config = {
     headers: { Authorization: token },
   };
   const response = await axios.patch(
-    `${baseUrl}/${eventId}/request-to-join`,
-    {},
-    config
-  );
-  return response.data;
-};
-
-const withdrawRequestToJoinEvent = async (eventId: string) => {
-  console.log("withdraw");
-  const config = {
-    headers: { Authorization: token },
-  };
-  const response = await axios.patch(
-    `${baseUrl}/${eventId}/withdraw-request-to-join`,
+    `${baseUrl}/${eventId}/${urlExtension}`,
     {},
     config
   );
@@ -56,6 +42,5 @@ export default {
   setToken,
   getAll,
   addOne,
-  requestToJoinEvent,
-  withdrawRequestToJoinEvent,
+  updateOne,
 };

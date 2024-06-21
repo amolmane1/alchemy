@@ -85,7 +85,7 @@ router.patch(
   async (req: CustomRequest, res) => {
     const user = req.user;
     const eventId: string = req.params.id;
-    let event = await eventService.getEvent(eventId);
+    let event = await eventService.getEvent(eventId, false);
     if (!(user && event)) {
       return res.status(404).send("Event not found");
     }
@@ -124,7 +124,7 @@ router.patch(
   async (req: CustomRequest, res) => {
     const user = req.user;
     const eventId: string = req.params.id;
-    let event = await eventService.getEvent(eventId);
+    let event = await eventService.getEvent(eventId, false);
     if (!(user && event)) {
       return res.status(404).send("Event not found");
     }
@@ -158,7 +158,7 @@ router.patch(
   async (req: CustomRequest, res) => {
     const user = req.user;
     const eventId: string = req.params.id;
-    let event = await eventService.getEvent(eventId);
+    let event = await eventService.getEvent(eventId, false);
     if (!(user && event)) {
       return res.status(404).send("Event not found");
     }

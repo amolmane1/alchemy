@@ -15,12 +15,17 @@ const getEvents = async (filters: EventFilterQuery) => {
   return result;
 };
 
-const getEvent = async (eventId: string) => {
-  const event = await EventModel.findById(eventId)
-    .populate("organizer")
-    .populate("requestedUsers")
-    .populate("acceptedUsers");
-  return event;
+const getEvent = async (eventId: string, populate: boolean = true) => {
+  if (populate) {
+    const event = await EventModel.findById(eventId)
+      .populate("organizer")
+      .populate("requestedUsers")
+      .populate("acceptedUsers");
+    return event;
+  } else {
+    const event = await EventModel.findById(eventId);
+    return event;
+  }
 };
 
 const addEvent = async (newEvent: NewEvent) => {

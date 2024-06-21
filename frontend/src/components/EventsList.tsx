@@ -1,17 +1,14 @@
 import { Flex } from "@chakra-ui/react";
 import { createSelector } from "@reduxjs/toolkit";
-import {
-  useAppSelector,
-  // useAppDispatch
-} from "../utils/hooks";
+import { useAppSelector } from "../utils/hooks";
 import EventCard from "./EventCard";
 import { Event, EventFilter } from "../utils/types";
 
 const EventsList = ({ eventFilters }: { eventFilters: EventFilter }) => {
   const filteredEventsSelector = createSelector(
     [(state) => state.events],
-    (events) =>
-      events.filter((e: Event) => {
+    (events) => {
+      const filteredEvents: Event[] = events.filter((e: Event) => {
         const statusCheck = e.status === "upcoming" || e.status === "ongoing";
         const locationCheck = e.location
           .toLowerCase()
@@ -23,20 +20,26 @@ const EventsList = ({ eventFilters }: { eventFilters: EventFilter }) => {
             .includes(eventFilters.text.toLowerCase()) ||
           e.type.toLowerCase().includes(eventFilters.text.toLowerCase());
         return statusCheck && locationCheck && textCheck;
-      })
+      });
+      const sortedEvents = filteredEvents.sort((a, b) =>
+        a.startDatetime > b.startDatetime ? 1 : -1
+      );
+      return sortedEvents;
+    }
   );
-  const filteredEvents = useAppSelector(filteredEventsSelector);
-  console.log(filteredEvents);
+  const eventsList = useAppSelector(filteredEventsSelector);
+
+  // console.log(filteredEvents);
   return (
     <>
       <Flex
         direction="column"
-        justifyContent="center"
+        justifyContent="flex-start"
         alignItems="center"
-        minHeight="100vh"
         pt="20px"
+        width="100%"
       >
-        {filteredEvents.map((e: Event) => (
+        {eventsList.map((e: Event) => (
           <EventCard key={e.id} event={e} />
         ))}
       </Flex>

@@ -9,7 +9,7 @@ const EventCard = ({ event }: { event: Event }) => {
   // console.log(event);
   return (
     <>
-      <Link to={`event/${event.id}`}>
+      <Link to={`/event/${event.id}`}>
         <Card
           width="600px"
           margin="2"

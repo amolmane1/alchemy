@@ -11,11 +11,11 @@ const eventsSlice = createSlice({
   initialState,
   reducers: {
     setEvents(_state, action: PayloadAction<Event[]>) {
-      console.log("initializing events");
+      // console.log("initializing events");
       return action.payload;
     },
     addEvent(state, action) {
-      console.log("addEvent", action.payload);
+      // console.log("addEvent", action.payload);
       state.push(action.payload);
     },
     updateEvent(state, action) {
@@ -45,13 +45,42 @@ export const createEvent = (payload: NewEventForm) => {
 
 export const handleRequestToJoinEvent = (eventId: string) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.requestToJoinEvent(eventId);
+    const result = await eventService.updateOne(eventId, `request-to-join`);
     dispatch(updateEvent(result));
   };
 };
 export const handleWithdrawRequestToJoinEvent = (eventId: string) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.withdrawRequestToJoinEvent(eventId);
+    const result = await eventService.updateOne(
+      eventId,
+      `withdraw-request-to-join`
+    );
+    dispatch(updateEvent(result));
+  };
+};
+
+export const handleAcceptRequestToJoinEvent = (
+  eventId: string,
+  requestedUserId: string
+) => {
+  return async (dispatch: AppDispatch) => {
+    const result = await eventService.updateOne(
+      eventId,
+      `requestedUsers/${requestedUserId}/accept-request-to-join`
+    );
+    dispatch(updateEvent(result));
+  };
+};
+
+export const handleRejectRequestToJoinEvent = (
+  eventId: string,
+  requestedUserId: string
+) => {
+  return async (dispatch: AppDispatch) => {
+    const result = await eventService.updateOne(
+      eventId,
+      `requestedUsers/${requestedUserId}/reject-request-to-join`
+    );
     dispatch(updateEvent(result));
   };
 };
