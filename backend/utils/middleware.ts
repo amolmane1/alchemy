@@ -1,6 +1,5 @@
 import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/users";
 import userServiceFirestore from "../services/userServiceFirestore";
 import { SECRET } from "./config";
 import { CustomRequest } from "./types";
