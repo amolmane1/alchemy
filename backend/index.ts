@@ -14,16 +14,16 @@ app.use(tokenExtractor);
 
 const PORT = process.env.PORT;
 
-mongoose
-  .connect("mongodb://localhost:27017/alchemy")
-  .then(() => {
-    console.log("connected to MongoDB");
-  })
-  .catch((error: unknown) => {
-    if (error instanceof Error) {
-      console.log("error connecting to MongoDB: ", error.message);
-    }
-  });
+// mongoose
+//   .connect("mongodb://localhost:27017/alchemy")
+//   .then(() => {
+//     console.log("connected to MongoDB");
+//   })
+//   .catch((error: unknown) => {
+//     if (error instanceof Error) {
+//       console.log("error connecting to MongoDB: ", error.message);
+//     }
+//   });
 
 app.use("/api/users", userRouter);
 app.use("/api/events", eventRouter);

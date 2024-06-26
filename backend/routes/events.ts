@@ -25,7 +25,7 @@ router.post("/", userExtractor, async (req: CustomRequest, res) => {
     const newEvent: NewEvent = toNewEvent({ ...req.body, organizer: user.id });
     // const result = await eventService.addEvent(newEvent);
     const result = await eventServiceFirestore.addEvent(newEvent);
-
+    // console.log(result);
     res.send(result);
   }
 });

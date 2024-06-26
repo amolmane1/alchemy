@@ -23,8 +23,8 @@ const getEvents = async () => {
 const addEvent = async (newEvent: NewEvent) => {
   const id: string = uuid();
   const event: Event = { ...newEvent, id };
-  const res = await db.collection("events").doc(id).set(event);
-  return res;
+  await db.collection("events").doc(id).set(event);
+  return event;
 };
 
 export default { getEvents, addEvent };
