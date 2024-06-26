@@ -27,8 +27,8 @@ const EventDetail = ({ event }: { event: Event }) => {
   const user: UserState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const startDatetime = formatDate(event.startDatetime.toString());
-  const endDatetime = formatDate(event.endDatetime.toString());
+  // const startDatetime = formatDate(event.startDatetime.toString());
+  // const endDatetime = formatDate(event.endDatetime.toString());
 
   const isInRequestedUsers =
     event.requestedUsers.filter((u: User) => u.id === user.id).length > 0;
@@ -75,13 +75,13 @@ const EventDetail = ({ event }: { event: Event }) => {
           </Text>
           <Text py="2">City: {event.location}</Text>
           <Text py="2">Address: {event.address}</Text>
-          <Text py="2">
+          {/* <Text py="2">
             {startDatetime.date}, {startDatetime.time} to{" "}
             {startDatetime.date === endDatetime.date
               ? ""
               : `${endDatetime.date} `}
             {endDatetime.time}
-          </Text>
+          </Text> */}
           <Tabs variant="soft-rounded" colorScheme="green">
             <TabList>
               <Tab>{`${event.requestedUsers.length} requested to join`}</Tab>

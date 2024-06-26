@@ -1,26 +1,31 @@
 import express, { request } from "express";
 const { ObjectId } = require("mongodb");
 import eventService from "../services/eventService";
+import eventServiceFirestore from "../services/eventServiceFirestore";
 import { userExtractor } from "../utils/middleware";
 import { NewEvent, CustomRequest } from "../utils/types";
 import { toNewEvent, parseString } from "../utils/utils";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   // console.log(req.body);
-  const result = await eventService.getEvents(req.body);
+  // const result = await eventService.getEvents(req.body);
+  const result = await eventServiceFirestore.getEvents();
+  // console.log("in get", result);
   res.send(result);
 });
 
 router.post("/", userExtractor, async (req: CustomRequest, res) => {
-  console.log("in post");
+  // console.log("in post");
   const user = req.user;
-  console.log("user ", user);
+  // console.log("user ", user);
 
   if (user) {
     const newEvent: NewEvent = toNewEvent({ ...req.body, organizer: user.id });
-    const result = await eventService.addEvent(newEvent);
+    // const result = await eventService.addEvent(newEvent);
+    const result = await eventServiceFirestore.addEvent(newEvent);
+
     res.send(result);
   }
 });
@@ -81,6 +86,7 @@ router.patch(
 // TODO: figure out whether this endpoint is appropriate
 router.patch(
   "/:id/requestedUsers/:requestedUserId/accept-request-to-join",
+  // "/:id/accept-request-to-join",
   userExtractor,
   async (req: CustomRequest, res) => {
     const user = req.user;
@@ -150,6 +156,8 @@ router.patch(
     return res.send(result);
   }
 );
+
+// update-status endpoint. schedma should just have one array for all users associated with the event
 
 // TODO: figure out whether this endpoint is appropriate
 router.patch(

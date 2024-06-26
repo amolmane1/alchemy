@@ -3,11 +3,11 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAZ21haWwuY29tIiwiaWQiOiI2NjcwYzI1YTQ3MTI4OTJiNjNlYjU3YjciLCJpYXQiOjE3MTg3NDMwNTR9.XoF981DmXeQoVUk8peb8M5w8gxv9a-Mv0BFP4r5BNpU
 
 {
-  "type": "mm",
-  "title": "mm",
-  "description": "mm",
-  "location": "mm",
-  "address": "Court",
+  "type": "Tennis",
+  "title": "Hitting practice",
+  "description": "Just a chill game",
+  "location": "Vancouver",
+  "address": "Kits Court",
   "startDatetime": "2024-06-18T13:40",
   "endDatetime": "2024-06-18T13:50"
 }
