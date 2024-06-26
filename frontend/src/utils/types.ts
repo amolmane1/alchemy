@@ -14,6 +14,7 @@ export interface NewUser extends UserWithoutId {
 }
 
 export type EventStatus = "upcoming" | "ongoing" | "finished" | "cancelled";
+// export type UserStatus = "requested" | "withdrawn" | "accepted" | "rejected";
 
 export interface Event {
   id: string;
@@ -24,16 +25,18 @@ export interface Event {
   address: string;
   startDatetime: Date;
   endDatetime: Date;
-  organizer: User;
+  organizer: string;
   status: EventStatus;
-  requestedUsers: Array<User>;
-  acceptedUsers: Array<User>;
+  // requestedUsers: Array<User>;
+  // acceptedUsers: Array<User>;
+  users: Record<string, string>;
 }
 
 export type NewEvent = Omit<Event, "id">;
 export type NewEventForm = Omit<
   Event,
-  "id" | "organizer" | "status" | "requestedUsers" | "acceptedUsers"
+  // "id" | "organizer" | "status" | "requestedUsers" | "acceptedUsers"
+  "id" | "organizer" | "status" | "users"
 >;
 
 export type EventFilterQuery = FilterQuery<Event>;

@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { v4 as uuid } from "uuid";
-import { Types } from "mongoose";
 import { User, UserWithoutId, UserWithoutIdAndPassword } from "../utils/types";
 
 const getUsers = async () => {
@@ -18,15 +17,13 @@ const getUsers = async () => {
   return data;
 };
 
-const getUser = async (email: string) => {
-  const ref = db.collection("users");
-  const snapshot: QuerySnapshot = await ref.where("email", "==", email).get();
-  const data = snapshot.docs.map((doc: QueryDocumentSnapshot) => doc.data());
-  console.log(data);
-  if (data.length == 0) {
+const getUser = async (id: string) => {
+  const ref = db.collection("users").doc(id);
+  const doc = await ref.get();
+  if (!doc.exists) {
     return null;
   } else {
-    return data[0];
+    return doc.data();
   }
 };
 

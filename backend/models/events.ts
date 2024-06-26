@@ -1,69 +1,69 @@
-import { Schema, model } from "mongoose";
-import { NewEvent } from "../utils/types";
+// import { Schema, model } from "mongoose";
+// import { NewEvent } from "../utils/types";
 
-const eventSchema = new Schema<NewEvent>({
-  type: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  startDatetime: {
-    type: Date,
-    required: true,
-  },
-  endDatetime: {
-    type: Date,
-    required: true,
-  },
-  organizer: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
-  requestedUsers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  acceptedUsers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-});
+// const eventSchema = new Schema<NewEvent>({
+//   type: {
+//     type: String,
+//     required: true,
+//   },
+//   title: {
+//     type: String,
+//     required: true,
+//   },
+//   description: {
+//     type: String,
+//     required: true,
+//   },
+//   location: {
+//     type: String,
+//     required: true,
+//   },
+//   address: {
+//     type: String,
+//     required: true,
+//   },
+//   startDatetime: {
+//     type: Date,
+//     required: true,
+//   },
+//   endDatetime: {
+//     type: Date,
+//     required: true,
+//   },
+//   organizer: {
+//     type: Schema.Types.ObjectId,
+//     ref: "User",
+//     required: true,
+//   },
+//   status: {
+//     type: String,
+//     required: true,
+//   },
+//   requestedUsers: [
+//     {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//     },
+//   ],
+//   acceptedUsers: [
+//     {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//     },
+//   ],
+// });
 
-eventSchema.index({ title: "text", description: "text", type: "text" });
+// eventSchema.index({ title: "text", description: "text", type: "text" });
 
-eventSchema.set("toJSON", {
-  transform: (_document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
+// eventSchema.set("toJSON", {
+//   transform: (_document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString();
+//     delete returnedObject._id;
+//     delete returnedObject.__v;
+//   },
+// });
 
-const EventModel = model<NewEvent>("Event", eventSchema);
+// const EventModel = model<NewEvent>("Event", eventSchema);
 
-// module.exports = UserModel;
-export default EventModel;
+// // module.exports = UserModel;
+// export default EventModel;

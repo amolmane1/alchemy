@@ -45,16 +45,17 @@ export const createEvent = (payload: NewEventForm) => {
 
 export const handleRequestToJoinEvent = (eventId: string) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.updateOne(eventId, `request-to-join`);
+    const result = await eventService.updateEventAttendance(eventId, {
+      type: `request-to-join`,
+    });
     dispatch(updateEvent(result));
   };
 };
 export const handleWithdrawRequestToJoinEvent = (eventId: string) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.updateOne(
-      eventId,
-      `withdraw-request-to-join`
-    );
+    const result = await eventService.updateEventAttendance(eventId, {
+      type: `withdraw-request-to-join`,
+    });
     dispatch(updateEvent(result));
   };
 };
@@ -64,10 +65,11 @@ export const handleAcceptRequestToJoinEvent = (
   requestedUserId: string
 ) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.updateOne(
-      eventId,
-      `requestedUsers/${requestedUserId}/accept-request-to-join`
-    );
+    const result = await eventService.updateEventAttendance(eventId, {
+      type: `accept-request-to-join`,
+      requestedUserId: requestedUserId,
+    });
+    console.log("accept-request-to-join: ", result);
     dispatch(updateEvent(result));
   };
 };
@@ -77,10 +79,11 @@ export const handleRejectRequestToJoinEvent = (
   requestedUserId: string
 ) => {
   return async (dispatch: AppDispatch) => {
-    const result = await eventService.updateOne(
-      eventId,
-      `requestedUsers/${requestedUserId}/reject-request-to-join`
-    );
+    const result = await eventService.updateEventAttendance(eventId, {
+      type: `reject-request-to-join`,
+      requestedUserId: requestedUserId,
+    });
+    console.log("reject-request-to-join: ", result);
     dispatch(updateEvent(result));
   };
 };

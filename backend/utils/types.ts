@@ -15,6 +15,7 @@ export type UserWithoutIdAndPassword = Omit<User, "id" | "passwordHash">;
 export type PublicUser = Omit<User, "passwordHash">;
 
 export type EventStatus = "upcoming" | "ongoing" | "finished" | "cancelled";
+export type UserStatus = "requested" | "accepted" | "rejected";
 
 export interface Event {
   id: string;
@@ -27,8 +28,9 @@ export interface Event {
   endDatetime: Date;
   organizer: Types.ObjectId | string;
   status: EventStatus;
-  requestedUsers: Array<Types.ObjectId>;
-  acceptedUsers: Array<Types.ObjectId>;
+  // requestedUsers: Array<Types.ObjectId>;
+  // acceptedUsers: Array<Types.ObjectId>;
+  users: Record<string, UserStatus>;
 }
 
 export type NewEvent = Omit<Event, "id">;

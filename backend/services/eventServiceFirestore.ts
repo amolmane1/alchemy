@@ -9,7 +9,7 @@ import {
 import { db } from "../utils/firebase";
 import { v4 as uuid } from "uuid";
 import { Types } from "mongoose";
-import { EventFilterQuery, NewEvent, Event } from "../utils/types";
+import { EventFilterQuery, NewEvent, Event, UserStatus } from "../utils/types";
 
 const getEvents = async () => {
   const eventsRef = db.collection("events");
@@ -20,6 +20,16 @@ const getEvents = async () => {
   return eventList;
 };
 
+const getEvent = async (id: string) => {
+  const ref = db.collection("events").doc(id);
+  const doc = await ref.get();
+  if (!doc.exists) {
+    return null;
+  } else {
+    return doc.data();
+  }
+};
+
 const addEvent = async (newEvent: NewEvent) => {
   const id: string = uuid();
   const event: Event = { ...newEvent, id };
@@ -27,4 +37,10 @@ const addEvent = async (newEvent: NewEvent) => {
   return event;
 };
 
-export default { getEvents, addEvent };
+const updateEvent = async (id: string, payload: Record<string, UserStatus>) => {
+  await db.collection("events").doc(id).update(payload);
+  const updatedEvent = await getEvent(id);
+  return updatedEvent;
+};
+
+export default { getEvents, getEvent, addEvent, updateEvent };

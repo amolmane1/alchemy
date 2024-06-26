@@ -38,9 +38,25 @@ const updateOne = async (eventId: string, urlExtension: string) => {
   return response.data;
 };
 
+const updateEventAttendance = async (
+  eventId: string,
+  payload: Record<string, string>
+) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.patch(
+    `${baseUrl}/${eventId}/update-event-attendance`,
+    payload,
+    config
+  );
+  return response.data;
+};
+
 export default {
   setToken,
   getAll,
   addOne,
   updateOne,
+  updateEventAttendance,
 };

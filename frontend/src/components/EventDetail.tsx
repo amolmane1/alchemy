@@ -23,31 +23,48 @@ import {
 } from "../reducers/eventsReducer";
 import UserCard from "./UserCard";
 
-const EventDetail = ({ event }: { event: Event }) => {
+const EventDetail = ({
+  event,
+  organizer,
+}: {
+  event: Event;
+  organizer: User;
+}) => {
   const user: UserState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   // const startDatetime = formatDate(event.startDatetime.toString());
   // const endDatetime = formatDate(event.endDatetime.toString());
 
-  const isInRequestedUsers =
-    event.requestedUsers.filter((u: User) => u.id === user.id).length > 0;
-  const isInAcceptedUsers =
-    event.acceptedUsers.filter((u: User) => u.id === user.id).length > 0;
+  const acceptedUsers = Object.entries(event.users)
+    .filter(([_, value]) => value === "accepted")
+    .map((v) => v[0]);
+  const requestedUsers = Object.entries(event.users)
+    .filter(([_, value]) => value === "requested")
+    .map((v) => v[0]);
+  const rejectedUsers = Object.entries(event.users)
+    .filter(([_, value]) => value === "rejected")
+    .map((v) => v[0]);
+  console.log(requestedUsers);
+  console.log(acceptedUsers);
+  console.log(rejectedUsers);
 
-  const [isRequested, setIsRequested] = useState<boolean>(
-    user.id ? isInRequestedUsers || isInAcceptedUsers : false
+  const [userHasRequested, setUserHasRequested] = useState<boolean>(
+    user.id ? user.id in event.users : false
+  );
+  const [userIsRejected, _] = useState<boolean>(
+    user.id ? rejectedUsers.includes(user.id) : false
   );
 
   const handleRequest = async () => {
-    if (isRequested) {
+    if (userHasRequested) {
       // console.log("is requested, will withdraw");
       await dispatch(handleWithdrawRequestToJoinEvent(event.id));
-      setIsRequested(false);
+      setUserHasRequested(false);
     } else {
       // console.log("is not requested, will request");
       await dispatch(handleRequestToJoinEvent(event.id));
-      setIsRequested(true);
+      setUserHasRequested(true);
     }
   };
 
@@ -71,7 +88,7 @@ const EventDetail = ({ event }: { event: Event }) => {
           <Text py="2">{event.description}</Text>
           <Text py="2">Status: {event.status}</Text>
           <Text py="2">
-            Organized by: {event.organizer.firstName} {event.organizer.lastName}
+            Organized by: {organizer.firstName} {organizer.lastName}
           </Text>
           <Text py="2">City: {event.location}</Text>
           <Text py="2">Address: {event.address}</Text>
@@ -84,25 +101,25 @@ const EventDetail = ({ event }: { event: Event }) => {
           </Text> */}
           <Tabs variant="soft-rounded" colorScheme="green">
             <TabList>
-              <Tab>{`${event.requestedUsers.length} requested to join`}</Tab>
-              <Tab>{`${event.acceptedUsers.length} attending`}</Tab>
+              <Tab>{`${requestedUsers.length} requested to join`}</Tab>
+              <Tab>{`${acceptedUsers.length} attending`}</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
-                {event.requestedUsers.map((u) => (
+                {requestedUsers.map((displayedUserId) => (
                   <UserCard
-                    key={u.id}
-                    displayedUser={u}
+                    key={displayedUserId}
+                    displayedUserId={displayedUserId}
                     event={event}
                     type="requested"
                   />
                 ))}
               </TabPanel>
               <TabPanel>
-                {event.acceptedUsers.map((u) => (
+                {acceptedUsers.map((displayedUserId) => (
                   <UserCard
-                    key={u.id}
-                    displayedUser={u}
+                    key={displayedUserId}
+                    displayedUserId={displayedUserId}
                     event={event}
                     type="accepted"
                   />
@@ -110,13 +127,19 @@ const EventDetail = ({ event }: { event: Event }) => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-          <Button
-            variant="solid"
-            colorScheme={isRequested ? "red" : "green"}
-            onClick={handleRequest}
-          >
-            {isRequested ? "Withdraw request to join" : "Request to join"}
-          </Button>
+          {userIsRejected ? (
+            <Text>Your request to join this event has been rejected</Text>
+          ) : (
+            <Button
+              variant="solid"
+              colorScheme={userHasRequested ? "red" : "green"}
+              onClick={handleRequest}
+            >
+              {userHasRequested
+                ? "Withdraw request to join"
+                : "Request to join"}
+            </Button>
+          )}
         </Box>
       </Flex>
     </>

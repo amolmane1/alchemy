@@ -75,8 +75,9 @@ export const toNewEvent = (object: unknown) => {
       endDatetime: parseDate(object.endDatetime),
       organizer: parseString(object.organizer, "organizer"),
       status: "upcoming",
-      requestedUsers: [],
-      acceptedUsers: [],
+      // requestedUsers: [],
+      // acceptedUsers: [],
+      users: {},
     };
     return newEvent;
   } else {

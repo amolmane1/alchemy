@@ -7,6 +7,11 @@ const EventCard = ({ event }: { event: Event }) => {
   // const startDatetime = formatDate(event.startDatetime.toString());
   // const endDatetime = formatDate(event.endDatetime.toString());
   // console.log(event);
+
+  const numAttending = Object.values(event.users).filter(
+    (value) => value === "accepted"
+  ).length;
+
   return (
     <>
       <Link to={`/event/${event.id}`}>
@@ -31,7 +36,7 @@ const EventCard = ({ event }: { event: Event }) => {
                   : `${endDatetime.date} `}
                 {endDatetime.time}
               </Text> */}
-              <Text py="2">{`${event.acceptedUsers.length} attending`}</Text>
+              <Text py="2">{`${numAttending} attending`}</Text>
             </CardBody>
           </Stack>
         </Card>
