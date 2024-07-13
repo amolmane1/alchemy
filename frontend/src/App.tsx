@@ -7,23 +7,22 @@ import { getAllEvents } from "./reducers/eventsReducer";
 import { setUser } from "./reducers/userReducer";
 import { Event, EventFilter } from "./utils/types";
 import eventService from "./services/eventService";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
 import { useNavigate, Route, Routes, useMatch } from "react-router-dom";
 import User from "./components/User";
 import * as React from "react";
 import EventDetailWrapper from "./components/EventDetailWrapper";
+import SignIn from "./components/Signin";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.user);
-  // console.log(user && user.token);
 
   const emptyFilter: EventFilter = {
     text: "",
-    location: user.location ? user.location : "",
+    // location: user.location ? user.location : "",
+    location: "",
   };
   const [searchFilters, setSearchFilters] = useState<EventFilter>(emptyFilter);
   const [eventFilters, setEventFilters] = useState<EventFilter>(emptyFilter);
@@ -58,8 +57,7 @@ const App = () => {
         <Route path="/user" element={<User />} />
         <Route path="/event/:id" element={<EventDetailWrapper />} />
         <Route path="/create-event" element={<CreateEvent />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
     </>
   );

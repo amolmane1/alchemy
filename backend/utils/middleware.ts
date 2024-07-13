@@ -4,6 +4,7 @@ import userServiceFirestore from "../services/userServiceFirestore";
 import { SECRET } from "./config";
 import { CustomRequest } from "./types";
 import { isJwtPayload } from "./utils";
+import { getAuth } from "firebase-admin/auth";
 
 export const tokenExtractor = (
   request: CustomRequest,
@@ -20,21 +21,21 @@ export const tokenExtractor = (
 
 export const userExtractor = async (
   request: CustomRequest,
-  response: Response,
+  _response: Response,
   next: NextFunction
 ) => {
-  if (request.token) {
-    const decodedToken = await jwt.verify(request.token, SECRET);
-    // console.log("decodenToken: ", decodedToken);
-    if (!isJwtPayload(decodedToken) || !decodedToken.id) {
-      response.status(401).json({ error: "Invalid token" });
-    } else {
-      // const user = await UserModel.findById(decodedToken.id);
-      const user = await userServiceFirestore.getUser(decodedToken.email);
-      request.user = JSON.parse(JSON.stringify(user));
+  try {
+    if (request.token) {
+      const decodedToken = await getAuth().verifyIdToken(request.token);
+      const user = await userServiceFirestore.getUser(decodedToken.uid);
+      console.log("in userExtractor: ", user);
+      request.user = user;
     }
+    next();
+  } catch (error) {
+    console.log(error);
+    // next(error); // Pass error to the error handling middleware
   }
-  next();
 };
 
 export const unknownEndpoint = (

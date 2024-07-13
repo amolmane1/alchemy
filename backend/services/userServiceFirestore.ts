@@ -27,17 +27,4 @@ const getUser = async (id: string) => {
   }
 };
 
-const addUser = async (userWithoutId: UserWithoutId) => {
-  const id: string = userWithoutId.email;
-  const user: User = { ...userWithoutId, id };
-  const result = await db.collection("users").doc(id).set(user);
-  const newUser: UserWithoutIdAndPassword = {
-    firstName: result.firstName,
-    lastName: result.lastName,
-    email: result.email,
-    location: result.location,
-  };
-  return newUser;
-};
-
-export default { getUsers, getUser, addUser };
+export default { getUsers, getUser };

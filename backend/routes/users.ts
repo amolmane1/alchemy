@@ -18,33 +18,4 @@ router.get("/:id", async (req, res) => {
   res.json(result);
 });
 
-router.post("/", async (req, res) => {
-  try {
-    const { firstName, lastName, email, password, location } = req.body;
-    if (password.length < 3) {
-      res
-        .status(400)
-        .json({ error: "Password must be at least 3 characters long." });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-    const newUser: UserWithoutId = toNewUser({
-      firstName,
-      lastName,
-      email,
-      passwordHash,
-      location,
-    });
-    // const result = await userService.addUser(newUser);
-    const result = await userServiceFirestore.addUser(newUser);
-    res.json(result);
-  } catch (error: unknown) {
-    let errorMessage = "";
-    if (error instanceof Error) {
-      errorMessage += " Error: " + error.message;
-    }
-    res.status(400).send(errorMessage);
-  }
-});
-
 export default router;

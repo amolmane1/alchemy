@@ -55,9 +55,7 @@ const UserCard = ({
       <>
         <Card p={0} m={1} w={300}>
           <CardBody>
-            <Text>
-              {displayedUser.firstName} {displayedUser.lastName}
-            </Text>
+            <Text>{displayedUser.displayName}</Text>
             {event.organizer === user.id && type === "requested" && (
               <>
                 <Button

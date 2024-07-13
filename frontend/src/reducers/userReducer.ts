@@ -4,10 +4,10 @@ import { UserState } from "../utils/types";
 const initialState: UserState = {
   token: null,
   id: null,
-  firstName: null,
-  lastName: null,
-  location: null,
+  displayName: null,
   email: null,
+  emailVerified: null,
+  photoURL: null,
 };
 
 const userSlice = createSlice({

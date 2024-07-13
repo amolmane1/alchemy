@@ -87,9 +87,7 @@ const EventDetail = ({
           <Text py="2">{event.type}</Text>
           <Text py="2">{event.description}</Text>
           <Text py="2">Status: {event.status}</Text>
-          <Text py="2">
-            Organized by: {organizer.firstName} {organizer.lastName}
-          </Text>
+          <Text py="2">Organized by: {organizer.displayName}</Text>
           <Text py="2">City: {event.location}</Text>
           <Text py="2">Address: {event.address}</Text>
           {/* <Text py="2">

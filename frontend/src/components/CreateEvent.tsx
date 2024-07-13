@@ -50,7 +50,6 @@ const CreateEvent = () => {
   const handleCreateEvent = (event: React.SyntheticEvent) => {
     event.preventDefault();
     console.log(newEventForm);
-    console.log(typeof newEventForm.startDatetime);
     dispatch(createEvent(newEventForm));
     navigate("/");
   };

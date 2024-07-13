@@ -22,6 +22,7 @@ const addOne = async (payload: NewEventForm) => {
   const config = {
     headers: { Authorization: token },
   };
+  console.log(token);
   const response = await axios.post(baseUrl, payload, config);
   return response.data;
 };

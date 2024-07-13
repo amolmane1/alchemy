@@ -38,10 +38,8 @@ const User = () => {
             borderRadius="md"
             backgroundColor="white"
           >
-            <Heading size="lg">
-              {user.firstName} {user.lastName}
-            </Heading>
-            <Text py={2}>Location: {user.location}</Text>
+            <Heading size="lg">{user.displayName}</Heading>
+            {/* <Text py={2}>Location: {user.location}</Text> */}
             <Tabs variant="soft-rounded" colorScheme="green">
               <TabList>
                 <Tab>Requested</Tab>

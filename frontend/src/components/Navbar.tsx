@@ -16,6 +16,7 @@ import { EventFilter, UserState } from "../utils/types";
 import eventService from "../services/eventService";
 import { removeUser } from "../reducers/userReducer";
 import { Link, useNavigate } from "react-router-dom";
+import firebase from "firebase/compat/app";
 import * as React from "react";
 
 const Navbar = ({
@@ -32,6 +33,7 @@ const Navbar = ({
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    firebase.auth().signOut();
     window.localStorage.removeItem("user");
     eventService.setToken(null);
     dispatch(removeUser());
@@ -101,11 +103,11 @@ const Navbar = ({
                 Create Event
               </Button>
             </Link>
-            {user.token ? (
+            {user.displayName ? (
               <>
                 <Link to="/user">
                   <Button colorScheme="teal" variant="solid">
-                    {user.firstName}
+                    {user.displayName}
                   </Button>
                 </Link>
                 <Button
@@ -118,7 +120,7 @@ const Navbar = ({
               </>
             ) : (
               <>
-                <Link to="/login">
+                {/* <Link to="/login">
                   <Button colorScheme="teal" variant="solid">
                     Login
                   </Button>
@@ -126,6 +128,11 @@ const Navbar = ({
                 <Link to="/signup">
                   <Button colorScheme="teal" variant="solid">
                     Sign up
+                  </Button>
+                </Link> */}
+                <Link to="/signin">
+                  <Button colorScheme="teal" variant="solid">
+                    Sign In
                   </Button>
                 </Link>
               </>

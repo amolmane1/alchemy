@@ -14,15 +14,16 @@ router.get("/", async (_req, res) => {
 });
 
 router.post("/", userExtractor, async (req: CustomRequest, res) => {
-  // console.log("in post");
   const user = req.user;
-  // console.log("user ", user);
+  // console.log("in post: ", user);
 
   if (user) {
     const newEvent: NewEvent = toNewEvent({ ...req.body, organizer: user.id });
     const result = await eventServiceFirestore.addEvent(newEvent);
     // console.log(result);
-    res.send(result);
+    return res.send(result);
+  } else {
+    return res.status(401).send("Invalid user token");
   }
 });
 

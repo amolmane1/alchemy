@@ -2,10 +2,10 @@ import { Types, FilterQuery } from "mongoose";
 
 export interface User {
   id: string;
-  firstName: string;
-  lastName: string;
+  displayName: string;
   email: string;
-  location: string;
+  emailVerified: boolean;
+  photoURL: string;
 }
 
 export type UserWithoutId = Omit<User, "id">;
@@ -58,8 +58,8 @@ export type Token = {
 export type UserState = {
   token: string | null;
   id: string | null;
-  firstName: string | null;
-  lastName: string | null;
+  displayName: string | null;
   email: string | null;
-  location: string | null;
+  emailVerified: boolean | null;
+  photoURL: string | null;
 };
