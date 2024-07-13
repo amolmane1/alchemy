@@ -10,9 +10,10 @@ import { setUser, removeUser } from "../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 
+const firestoreApiKey = import.meta.env.VITE_FIRESTORE_API_KEY;
 // Configure Firebase.
 const config = {
-  apiKey: "AIzaSyAwi2Z3d9xO82EJuKN9FZhKAGvu3Y-ZuIs",
+  apiKey: firestoreApiKey,
   authDomain: "firestore-course-3faf9.firebaseapp.com",
   projectId: "firestore-course-3faf9",
   storageBucket: "firestore-course-3faf9.appspot.com",
