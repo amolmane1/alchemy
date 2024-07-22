@@ -15,7 +15,11 @@ const UserUpcomingRequestedEvents = () => {
       const filteredEvents: Event[] = events.filter((e: Event) => {
         console.log(e);
         const statusCheck = e.status === "upcoming" || e.status === "ongoing";
-        const isRequestedCheck = e.requestedUsers.find((u) => u.id === user.id);
+        // const isRequestedCheck = e.requestedUsers.find((u) => u.id === user.id);
+        const isRequestedCheck =
+          user.id &&
+          e.users.hasOwnProperty(user.id) &&
+          e.users[user.id] === "requested";
         return statusCheck && isRequestedCheck;
       });
       const sortedEvents = filteredEvents.sort((a, b) =>

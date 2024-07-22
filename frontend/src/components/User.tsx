@@ -37,8 +37,11 @@ const User = () => {
             boxShadow="lg"
             borderRadius="md"
             backgroundColor="white"
+            alignItems="center"
           >
-            <Heading size="lg">{user.displayName}</Heading>
+            <Heading size="lg" textAlign="center" mb="10px">
+              {user.displayName}
+            </Heading>
             {/* <Text py={2}>Location: {user.location}</Text> */}
             <Tabs variant="soft-rounded" colorScheme="green">
               <TabList>

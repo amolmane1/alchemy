@@ -69,6 +69,9 @@ const CreateEvent = () => {
           borderRadius="md"
           backgroundColor="white"
         >
+          <Heading size="lg" textAlign="center">
+            Create Event
+          </Heading>
           <form onSubmit={handleCreateEvent}>
             <FormControl id="type" mb="4">
               <FormLabel>Event type</FormLabel>

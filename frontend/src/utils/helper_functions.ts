@@ -1,22 +1,15 @@
 export const formatDate = (
-  inputString: string
+  input: Date | { _seconds: number; _nanoseconds: number }
 ): { year: string; date: string; weekday: string; time: string } => {
-  // Convert the ISO string to a Date object
-  const date = new Date(inputString);
+  const date = input instanceof Date ? input : new Date(input._seconds * 1000);
 
-  // Ensure the date is valid
   if (isNaN(date.getTime())) {
-    throw new TypeError("Invalid ISO date string");
+    throw new TypeError("Invalid date");
   }
 
-  // Get the local year as a string
   const year = date.getFullYear().toString();
-
-  // Get the local weekday name (short)
   const shortWeekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const weekday = shortWeekdayNames[date.getDay()];
-
-  // Get the local month and day, and format them
   const shortMonthNames = [
     "Jan",
     "Feb",
@@ -34,7 +27,6 @@ export const formatDate = (
   const day = date.getDate();
   const month = shortMonthNames[date.getMonth()];
 
-  // Add appropriate ordinal suffix to the day
   const ordinalSuffix = (day: number): string => {
     if (day > 3 && day < 21) return "th";
     switch (day % 10) {
@@ -50,12 +42,11 @@ export const formatDate = (
   };
   const dateString = `${weekday} ${day}${ordinalSuffix(day)} ${month}`;
 
-  // Get the local hours and minutes, and format them
   let hours = date.getHours();
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours ? hours : 12;
   const timeString = `${hours}:${minutes}${ampm}`;
 
   return {

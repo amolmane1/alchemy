@@ -15,7 +15,7 @@ const UserUpcomingOrganizedEvents = () => {
       const filteredEvents: Event[] = events.filter((e: Event) => {
         console.log(e);
         const statusCheck = e.status === "upcoming" || e.status === "ongoing";
-        const isOrganizedCheck = e.organizer.id === user.id;
+        const isOrganizedCheck = e.organizer === user.id;
         return statusCheck && isOrganizedCheck;
       });
       const sortedEvents = filteredEvents.sort((a, b) =>

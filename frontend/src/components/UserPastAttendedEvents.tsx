@@ -15,7 +15,11 @@ const UserPastAttendedEvents = () => {
       const filteredEvents: Event[] = events.filter((e: Event) => {
         console.log(e);
         const statusCheck = e.status === "finished";
-        const isAcceptedCheck = e.acceptedUsers.find((u) => u.id === user.id);
+        // const isAcceptedCheck = e.acceptedUsers.find((u) => u.id === user.id);
+        const isAcceptedCheck =
+          user.id &&
+          e.users.hasOwnProperty(user.id) &&
+          e.users[user.id] === "accepted";
         return statusCheck && isAcceptedCheck;
       });
       const sortedEvents = filteredEvents.sort((a, b) =>

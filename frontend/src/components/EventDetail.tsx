@@ -1,15 +1,4 @@
-import {
-  Flex,
-  Box,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Stack,
-  Heading,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Flex, Box, Heading, Text, Button, Divider } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../utils/helper_functions";
@@ -33,8 +22,10 @@ const EventDetail = ({
   const user: UserState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  // const startDatetime = formatDate(event.startDatetime.toString());
-  // const endDatetime = formatDate(event.endDatetime.toString());
+  console.log(event.startDatetime);
+  // console.log(typeof event.startDatetime._seconds);
+  const startDatetime = formatDate(event.startDatetime);
+  const endDatetime = formatDate(event.endDatetime);
 
   const acceptedUsers = Object.entries(event.users)
     .filter(([_, value]) => value === "accepted")
@@ -86,17 +77,31 @@ const EventDetail = ({
           <Heading size="md">{event.title}</Heading>
           <Text py="2">{event.type}</Text>
           <Text py="2">{event.description}</Text>
-          <Text py="2">Status: {event.status}</Text>
-          <Text py="2">Organized by: {organizer.displayName}</Text>
-          <Text py="2">City: {event.location}</Text>
-          <Text py="2">Address: {event.address}</Text>
-          {/* <Text py="2">
+          <Text py="2">
+            <strong>Status: </strong>
+            {event.status}
+          </Text>
+          <Text py="2">
+            <strong>Organized by: </strong>
+            {organizer.displayName}
+          </Text>
+          <Text py="2">
+            <strong>City: </strong>
+            {event.location}
+          </Text>
+          <Text py="2">
+            <strong>Address: </strong>
+            {event.address}
+          </Text>
+          <Text py="2">
+            <strong>Time: </strong>
             {startDatetime.date}, {startDatetime.time} to{" "}
             {startDatetime.date === endDatetime.date
               ? ""
               : `${endDatetime.date} `}
             {endDatetime.time}
-          </Text> */}
+          </Text>
+          <Divider m="20px" />
           <Tabs variant="soft-rounded" colorScheme="green">
             <TabList>
               <Tab>{`${requestedUsers.length} requested to join`}</Tab>
